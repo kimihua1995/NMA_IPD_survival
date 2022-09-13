@@ -1,6 +1,6 @@
 # Network meta-analysis with individual participant-level data of time-to-event outcomes using Cox regression
 
-This project contains the R functions for simulation and data analysis for NMA-IPD using stratified Cox model with random effects.
+This project contains the R functions for simulation and data analysis for NMA-IPD
 
 simulation.R
 ```
@@ -47,4 +47,22 @@ AIC: AIC of each model
 CI_L, CI_H: lower and upper bound of 95% confidence interval for coef
 ```
 
+
+analysis.R
+```
+This file contains the code used for PH assumption assessment and extended Cox models for data analysis.
+We only use the covariate unadjusted model only as our example, which can be easily extended to the covarate adjusted models
+The apprroaches for PH assumption assessment includes:
+G1: log cumulaitve hazard plots
+G2: scaled Schoenfeld's residual plots
+G3: plots of observed cumulative residual with simulated process under PH assumption
+T1: add treatment-by-lot(t) interactions
+T2: scaled Schoenfeld's residuals score test
+T3: goodness-of-fit test on cumulative residuals
+
+The extended Cox models are:
+a) piecewise Cox model
+b) cumulative Cox model
+
+```
 
