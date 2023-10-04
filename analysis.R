@@ -8,6 +8,7 @@ data <- my.meta.survial.HR.sim(nt = 4,
                               tau = c(0.1,0.2),
                               gamma = c(0.7,0.7,1.0,1.0), 
                               lambda = c(1,0.5,1,0.5),
+                              alpha = rep(0,4),
                               t_trt = list(1:3,1:2,2:3,c(1,3)))
 
 library(coxme)
@@ -61,8 +62,7 @@ plot(fit_G3,score = T,main = c("trt2 vs. trt1 (Trial 2)"))
 
 
 ## T1: add treatment-by-lot(t) interactions
-fit_T1 <- coxme(Surv(timey,status) ~ trt2 +  trt2:log(timey) + 
-               (trt2|trial) + strata(trial), data = data[data$trial==2,])
+fit_T1 <- coxme(Surv(time,status) ~ trt2 +  trt2:log(time), data = data[data$trial==2,])
 summary(fit_T1)
 
 
