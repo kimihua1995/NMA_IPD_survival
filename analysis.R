@@ -3,14 +3,12 @@
 # can be naturally extended to covariate adjusted model
 # we use simulated data from NMAIPD.survival.dat()
 set.seed(12321)
-data <- NMAIPD.survival.dat(nt = 4, 
-                           ntrial = round(runif(4,500,1000)),
-                           alphas = c(-0.2,-0.4), 
-                           tau = c(0.01,0.01),
-                           gamma = c(0.7,0.7,1.0,1.0), 
-                           lambda = c(1,1.5,1,1.5),
-                           tcen = 2, 
-                           t_trt = list(1:3,1:2,1:3,c(1,3)))
+data <- my.meta.survial.HR.sim(nt = 4, 
+                              betas = c(-0.2,-0.4), 
+                              tau = c(0.1,0.2),
+                              gamma = c(0.7,0.7,1.0,1.0), 
+                              lambda = c(1,0.5,1,0.5),
+                              t_trt = list(1:3,1:2,2:3,c(1,3)))
 
 library(coxme)
 library(coxph)
