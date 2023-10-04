@@ -56,6 +56,7 @@ dat <- my.meta.survial.HR.sim(nt = 4,
                               tau = c(0.1,0.2),
                               gamma = c(0.7,0.7,1.0,1.0), 
                               lambda = c(1,0.5,1,0.5),
+                              alpha = rep(0,4),
                               t_trt = list(1:3,1:2,2:3,c(1,3)))
 head(dat)
 
