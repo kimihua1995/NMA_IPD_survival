@@ -6,37 +6,43 @@ simulation.R
 ```
 This code provides functions for generating NMA-IPD survival data under Weibull parametric proportional hazard models and comparisons from 4 NMA-IPD Cox model specifications:
 
-a) function "NMAIPD.survial.dat()"
-Arguments:
-nt: number of clinical trial
-ntrial: number of participants in each trial; vector of length nt
-alphas: including mean log-HR comparing treatment k > 2 to the reference treatment (k = 1); vector of length K-1 (K is the number of treatments arms)
-tau: variablity of the random effects; vector of length (K-1)
-gamma: shape parameter of the baseline Weibull distribution; vector of length nt
-lambda: scale parameter of the baseline Weibull distribution; vector of length nt
-tcen: administrative censoring time
-t_trt: treatments investigated in each trial; list of length nt
+a) function "my.meta.survial.HR.sim()"
+  Arguments:
+  # nt: number of clinical trial
+  # betas: including mean log-HR comparing treatment k > 2 to the reference treatment (k = 1); vector of length K-1 (K is the number of treatments arms)
+  # tau: variablity of the random effects; vector of length (K-1)
+  # gamma: shape parameter of the baseline Weibull distribution; vector of length nt
+  # lambda: scale parameter of the baseline Weibull distribution; vector of length nt
+  # alpha: values of trial-specific intercept; vector of length nt
+  # t_trt: treatments investigated in each trial; list of length nt
 
-Values: 
-a data frame including:
-time: time to event
-status: censoring indicator; 1 if event, 0 if censored
-trt1 -- trtK: treatment indicator, K is the number of treatment arms
-trial: trial number from 1 to nt
+
+  Values: 
+  a data frame including:
+  time: time to event
+  status: censoring indicator; 1 if event, 0 if censored
+  trt1 -- trtK: treatment indicator, K is the number of treatment arms
+  trial: trial number from 1 to nt
 
 
 
 
 b) function "model_comp()"
-4 NMA-IPD unadjusted Cox model specifications are compared:
-1) (unstr_f) unstratified baseline hazard with fixed effect
-2) (str_f) stratified baseline hazard with fixed effect
-3) (unstr_r) unstratified baseline hazard with random effects
-4) (str_r) stratified baseline hazard with random effects
+9 IPD-NMA unadjusted Cox model specifications are compared:
+Model 1: stratified Cox model (Equation 1) with fixed treatment effect.
+Model 2: Cox model (Equation 2) using fixed trial-specific intercept and fixed treatment effect.
+Model 3: Cox model (Equation 2) using random trial-specific intercept and fixed treatment effect.
+Model 4: stratified Cox model (Equation 1) with random treatment effect.
+Model 5: Cox model (Equation 2) using fixed trial-specific intercept and random treatment effect (uising specification ).
+Model 6: Cox model (Equation 2) using random trial-specific intercept and random treatment effect.
+Model 7: stratified Cox model (Equation 1) with random treatment effect (specification a).
+Model 8: Cox model (Equation 2) using fixed trial-specific intercept and random treatment effect (specification a).
+Model 9: Cox model (Equation 2) using random trial-specific intercept and random treatment effect (specification a).
+
 require packages "survival" and "coxme"
 
 Arguments:
-data: output from from NMAIPD.survial.dat()
+data: output from from my.meta.survial.HR.sim()
 
 Values:
 a list including:
