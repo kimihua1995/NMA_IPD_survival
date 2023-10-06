@@ -82,10 +82,13 @@ fit_G3
 # 2) Extended Cox models
 ## a) piecewise Cox model
 ## t1, t2: two time cutpoints
-data$p1 <- 1*(data$time <= t1)
-data$p2 <- 1*(data$time > t1 & data$time <= t2)
-data$p3 <- 1*(data$time >= t2)
-fit_piece <- coxme(Surv(time,status) ~ trt2:p1 + trt2:p2+ trt2:p3+ 
+data_split <- survSplit(Surv(time, status) ~ ., data = data,
+                       cut = c(t1,t2), episode = "tgroup", id = "id")
+data_split$p1 <- as.numeric(data_split$tgroup == 1)
+data_split$p2 <- as.numeric(data_split$tgroup == 2)
+data_split$p3 <- as.numeric(data_split$tgroup == 3)
+
+fit_piece <- coxme(Surv(tstart,time,status) ~ trt2:p1 + trt2:p2+ trt2:p3+ 
                trt3:p1 + trt3:p2+ trt3:p3+
                (trt2|trial) + (trt3|trial) + strata(trial), data = data)
 
