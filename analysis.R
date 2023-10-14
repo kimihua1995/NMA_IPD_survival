@@ -62,7 +62,7 @@ plot(fit_G3,score = T,main = c("trt2 vs. trt1 (Trial 2)"))
 
 
 ## T1: add treatment-by-lot(t) interactions
-fit_T1 <- coxme(Surv(time,status) ~ trt2 +  trt2:log(time), data = data[data$trial==2,])
+fit_T1 <- coxph(Surv(time,status) ~ trt2 +  trt2:log(time), data = data[data$trial==2,])
 summary(fit_T1)
 
 
