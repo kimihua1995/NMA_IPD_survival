@@ -70,23 +70,26 @@ model_comp <- function(data){
   data$trt<-as.factor(1+data$trt2+2*data$trt3)
   data$trtbytrial<-as.factor(10*as.numeric(data$trial)+as.numeric(data$trt))
   # Model 1
-  fit1 <- coxph(Surv(time,status) ~ trt2 + trt3 + strata(trial), 
+  fit1 <- coxph(Surv(time,status) ~ trt2 + trt3 + trial,
                 data = data)
   # Model 2
-  fit2 <- coxph(Surv(time,status) ~ trt2 + trt3 + trial,
-                data = data)
-  # Model 3
-  fit3 <- coxme(Surv(time,status) ~ trt2 + trt3 +
+  fit2 <- coxme(Surv(time,status) ~ trt2 + trt3 +
                   (1|trial), data = data)
+  # Model 3
+  fit3 <- coxph(Surv(time,status) ~ trt2 + trt3 + strata(trial), 
+                data = data)
   # Model 4
-  fit4 <- coxme(Surv(time,status) ~ trt2 + trt3 + 
-                  (trt2|trial) + (trt3|trial) + strata(trial), data = data)
+  fit4 <- coxme(Surv(time,status) ~ trt2 + trt3 + trial +
+                  (trt2|trial) + (trt3|trial), data = data)
   # Model 5
-  fit5 <- coxme(Surv(time,status) ~ trt2 + trt3 + trial +
+  fit5 <- coxme(Surv(time,status) ~ trt2 + trt3 + (1|trial) +
                   (trt2|trial) + (trt3|trial), data = data)
   # Model 6
-  fit6 <- coxme(Surv(time,status) ~ trt2 + trt3 + (1|trial) +
-                  (trt2|trial) + (trt3|trial), data = data)
+  fit6 <- coxme(Surv(time,status) ~ trt2 + trt3 + 
+                  (trt2|trial) + (trt3|trial) + strata(trial), data = data)
+  
+  #############################
+  # The results from Models 7 to 9 are not shown in the main manuscript
   #############################
   # Model 7
   fit7 <- coxme(Surv(time,status) ~ trt + (1|trtbytrial) + strata(trial), data = data)
