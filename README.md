@@ -29,17 +29,17 @@ a) function "my.meta.survial.HR.sim()"
 
 b) function "model_comp()"
 9 IPD-NMA unadjusted Cox model specifications are compared:
-Model 1: stratified Cox model (Equation 1) with fixed treatment effect.
-Model 2: Cox model (Equation 2) using fixed trial-specific intercept and fixed treatment effect.
-Model 3: Cox model (Equation 2) using random trial-specific intercept and fixed treatment effect.
-Model 4: stratified Cox model (Equation 1) with random treatment effect.
-Model 5: Cox model (Equation 2) using fixed trial-specific intercept and random treatment effect (uising specification ).
-Model 6: Cox model (Equation 2) using random trial-specific intercept and random treatment effect.
-Model 7: stratified Cox model (Equation 1) with random treatment effect (specification a).
-Model 8: Cox model (Equation 2) using fixed trial-specific intercept and random treatment effect (specification a).
-Model 9: Cox model (Equation 2) using random trial-specific intercept and random treatment effect (specification a).
-
-require packages "survival" and "coxme"
+Model 1: Fixed intercept Cox model (Equation 1) with fixed treatment effect.
+Model 2: Random intercepts Cox model (Equation 2) with fixed treatment effect.
+Model 3: Stratified Cox model (Equation 3) with fixed treatment effect.
+Model 4: Fixed intercept Cox model (Equation 1) with random treatment effects.
+Model 5: Random intercepts Cox model (Equation 2) with random treatment effects.
+Model 6: Stratified Cox model (Equation 3) with random treatment effects.
+Model 7: Fixed intercept Cox model (Equation 1) with random treatment effects (specification a).
+Model 8: Random intercepts Cox model (Equation 2) with random treatment effects (specification a).
+Model 9: Stratified Cox model (Equation 3) with random treatment effects (specification a).
+* The results for Models 7 - 9 are not shown in the main manuscript.
+* require R packages "survival" and "coxme"
 
 Arguments:
 data: output from from my.meta.survial.HR.sim()
