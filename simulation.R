@@ -92,12 +92,11 @@ model_comp <- function(data){
   # The results from Models 7 to 9 are not shown in the main manuscript
   #############################
   # Model 7
-  fit7 <- coxme(Surv(time,status) ~ trt + (1|trtbytrial) + strata(trial), data = data)
+  fit7 <- coxme(Surv(time,status) ~ trt + trial+ (1|trtbytrial), data = data)
   # Model 8
-  fit8 <- coxme(Surv(time,status) ~ trt + trial+ (1|trtbytrial), data = data)
+  fit8 <- coxme(Surv(time,status) ~ trt + (1|trial/trt), data = data)
   # Model 9
-  fit9 <- coxme(Surv(time,status) ~ trt + (1|trial/trt), data = data)
-  
+  fit9 <- coxme(Surv(time,status) ~ trt + (1|trtbytrial) + strata(trial), data = data)
   
   coef.list <- list()
   coef.list[[1]] <- coef(fit1)[1:2]
