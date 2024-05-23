@@ -75,11 +75,15 @@ fit_G3
 
 
 
+# 2) Stratified Cox models
+## a) fixed treatment effect
+fit1 <- coxph(Surv(time,status) ~ trt2 + trt3 + strata(trial), data = data)
+
+## b) random treatment effects
+fit2 <- coxme(Surv(time,status) ~ trt2 + trt3 + (trt2|trial) + (trt3|trial) + strata(trial), data = data)
 
 
-
-
-# 2) Extended Cox models
+# 3) Extended Cox models
 ## a) piecewise Cox model
 ## t1, t2: two time cutpoints
 data_split <- survSplit(Surv(time, status) ~ ., data = data,
