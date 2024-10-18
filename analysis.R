@@ -12,7 +12,7 @@ data <- my.meta.survial.HR.sim(nt = 4,
                               t_trt = list(1:3,1:2,2:3,c(1,3)))
 
 library(coxme)
-library(coxph)
+library(survival)
 # 1) PH assumption
 # using Trial 2 and trt 2 vs. trt 1 as our example
 
@@ -62,7 +62,9 @@ plot(fit_G3,score = T,main = c("trt2 vs. trt1 (Trial 2)"))
 
 
 ## T1: add treatment-by-lot(t) interactions
-fit_T1 <- coxph(Surv(time,status) ~ trt2 +  trt2:log(time), data = data[data$trial==2,])
+fit_T1 <- coxph(Surv(time,status) ~ trt2 +  tt(trt2), 
+                data = data[data$trial==2,],
+                tt = function(x, t, ...) x * log(t))
 summary(fit_T1)
 
 
