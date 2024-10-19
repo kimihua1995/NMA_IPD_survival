@@ -73,26 +73,30 @@ model_comp <- function(data){
   fit1 <- coxph(Surv(time,status) ~ trt2 + trt3 + trial,
                 data = data)
   # Model 2
-  fit2 <- coxme(Surv(time,status) ~ trt2 + trt3 +
-                  (1|trial), data = data)
+  fit2 <- coxme(Surv(time,status) ~ trt2 + trt3 + trial +
+                  (trt2|trial) + (trt3|trial), data = data)
   # Model 3
-  fit3 <- coxph(Surv(time,status) ~ trt2 + trt3 + strata(trial), 
-                data = data)
+  fit3 <- coxme(Surv(time,status) ~ trt2 + trt3 +
+                  (1|trial), data = data)
   # Model 4
-  fit4 <- coxme(Surv(time,status) ~ trt2 + trt3 + trial +
+  fit4 <- coxme(Surv(time,status) ~ trt2 + trt3 + (1|trial) +
                   (trt2|trial) + (trt3|trial), data = data)
   # Model 5
-  fit5 <- coxme(Surv(time,status) ~ trt2 + trt3 + (1|trial) +
-                  (trt2|trial) + (trt3|trial), data = data)
+  fit5 <- coxph(Surv(time,status) ~ trt2 + trt3 + strata(trial), 
+                data = data)
   # Model 6
   fit6 <- coxme(Surv(time,status) ~ trt2 + trt3 + 
                   (trt2|trial) + (trt3|trial) + strata(trial), data = data)
   
   #############################
-  # The results from Models 7 to 9 are not shown in the main manuscript
+  # Models 7 to 9 use an alternative R argument to specify random treatment effects in the
+  # coxme() function for our models. However, the between-study variability of the treatment 
+  # effects are assumed to be equivalent under this argument.
+  # The simulation results show that two arguments provide similar results. 
+  # The results from Models 7 to 9 are not shown in the main manuscript.
   #############################
   # Model 7
-  fit7 <- coxme(Surv(time,status) ~ trt + trial+ (1|trtbytrial), data = data)
+  fit7 <- coxme(Surv(time,status) ~ trt + trial + (1|trtbytrial), data = data)
   # Model 8
   fit8 <- coxme(Surv(time,status) ~ trt + (1|trial/trt), data = data)
   # Model 9
@@ -132,10 +136,10 @@ model_comp <- function(data){
   
   tau.list <- list()
   tau.list[[1]] <- NA
-  tau.list[[2]] <- NA
+  tau.list[[2]] <- sqrt(unlist(fit2$vcoef))
   tau.list[[3]] <- NA
   tau.list[[4]] <- sqrt(unlist(fit4$vcoef))
-  tau.list[[5]] <- sqrt(unlist(fit5$vcoef))
+  tau.list[[5]] <- NA
   tau.list[[6]] <- sqrt(unlist(fit6$vcoef))
   tau.list[[7]] <- sqrt(unlist(fit7$vcoef))
   tau.list[[8]] <- sqrt(unlist(fit8$vcoef))
@@ -182,7 +186,7 @@ my.sim <- function(seed,S,nt,betas,tau,t_trt,strata){
       tau.list[[m]] <- rbind(tau.list[[m]],res$tau[[m]])
     }
     AIC.list <- rbind(AIC.list, res$AIC)
-    if (i%%100 == 0) print(i)
+    #if (i%%100 == 0) print(i)
   }
   
   beta_hat <- do.call("rbind",lapply(coef.list, colMeans))
@@ -220,17 +224,17 @@ betas=c(-0.2,-0.4)
 nt=15
 
 # Scenario 1
-res_S1 <- my.sim(seed=12321, S=1000, nt=nt, betas = betas, tau=c(0,0), 
+res_S1 <- my.sim(seed=12321, S=500, nt=nt, betas = betas, tau=c(0,0), 
                  t_trt = t_trt, strata = FALSE)
 
 # Scenario 2
-res_S2 <- my.sim(seed=12321, S=1000, nt=nt, betas = betas, tau=c(0,0), 
+res_S2 <- my.sim(seed=12321, S=500, nt=nt, betas = betas, tau=c(0,0), 
                  t_trt = t_trt, strata = TRUE)
 
 # Scenario 3
-res_S3 <- my.sim(seed=12321, S=1000, nt=nt, betas = betas, tau=c(0.1,0.2), 
+res_S3 <- my.sim(seed=12321, S=500, nt=nt, betas = betas, tau=c(0.1,0.2), 
                  t_trt = t_trt, strata = FALSE)
 
 # Scenario 4
-res_S4 <- my.sim(seed=12321, S=1000, nt=nt, betas = betas, tau=c(0.1,0.2), 
+res_S4 <- my.sim(seed=12321, S=500, nt=nt, betas = betas, tau=c(0.1,0.2), 
                  t_trt = t_trt, strata = TRUE)
